@@ -5,16 +5,16 @@ FROM gradle:7.6.1-jdk17 AS build
 WORKDIR /app
 
 # 라이브러리 설치에 필요한 파일만 복사
-COPY build.gradle settings.gradle ./
+COPY build.gradle settings.gradle /app
 
-# 애플리케이션 빌드
-RUN gradle dependencies --no-daemon
+# 라이브러리설치
+RUN gradle dependencies
 
 # 호스트 머신의 소스코드를 작업 디렉토리로 복사
 COPY . /app
 
 # Gradle 빌드를 실행하여 JAR 파일 생성
-RUN gradle clean build --no-daemon
+RUN gradle clean build
 
 # 런타임 이미지로 OpenJDK 17-jre 이미지 지정
 FROM eclipse-temurin:17-jre
