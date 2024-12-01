@@ -26,5 +26,8 @@ WORKDIR /app
 COPY --from=build /app/build/libs/Leafy.jar /app/leafy.jar
 
 EXPOSE 8080
+EXPOSE 5005
+
 ENTRYPOINT ["java"]
-CMD ["-jar", "leafy.jar"]
+CMD ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "leafy.jar"]
+
