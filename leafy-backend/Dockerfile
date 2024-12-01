@@ -7,6 +7,7 @@ WORKDIR /app
 # 라이브러리 설치에 필요한 파일만 복사
 COPY build.gradle settings.gradle ./
 
+# 애플리케이션 빌드
 RUN gradle dependencies --no-daemon
 
 # 호스트 머신의 소스코드를 작업 디렉토리로 복사
@@ -22,7 +23,7 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 # 빌드 이미지에서 생성된 JAR 파일을 런타임 이미지로 복사
-COPY --from=build /app/build/libs/Leafy-0.0.1-SNAPSHOT.jar /app/leafy.jar
+COPY --from=build /app/build/libs/Leafy.jar /app/leafy.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java"]
