@@ -2,40 +2,10 @@
 docker network create postgres
 
 #2. 프라이머리 노드 실행
-docker run -d \
-  --name postgres-primary-0 \
-  --network postgres \
-  -v postgres_primary_data:/bitnami/postgresql \
-  -e POSTGRESQL_POSTGRES_PASSWORD=adminpassword \
-  -e POSTGRESQL_USERNAME=myuser \
-  -e POSTGRESQL_PASSWORD=mypassword \
-  -e POSTGRESQL_DATABASE=mydb \
-  -e REPMGR_PASSWORD=repmgrpassword \
-  -e REPMGR_PRIMARY_HOST=postgres-primary-0 \
-  -e REPMGR_PRIMARY_PORT=5432 \
-  -e REPMGR_PARTNER_NODES=postgres-primary-0,postgres-standby-1:5432 \
-  -e REPMGR_NODE_NAME=postgres-primary-0 \
-  -e REPMGR_NODE_NETWORK_NAME=postgres-primary-0 \
-  -e REPMGR_PORT_NUMBER=5432 \
-  bitnami/postgresql-repmgr:15
+docker run -d --name postgres-primary-0 --network postgres -v postgres_primary_data:/bitnami/postgresql -e POSTGRESQL_POSTGRES_PASSWORD=adminpassword -e POSTGRESQL_USERNAME=myuser -e POSTGRESQL_PASSWORD=mypassword -e POSTGRESQL_DATABASE=mydb -e REPMGR_PASSWORD=repmgrpassword -e REPMGR_PRIMARY_HOST=postgres-primary-0 -e REPMGR_PRIMARY_PORT=5432 -e REPMGR_PARTNER_NODES=postgres-primary-0,postgres-standby-1:5432 -e REPMGR_NODE_NAME=postgres-primary-0 -e REPMGR_NODE_NETWORK_NAME=postgres-primary-0 -e REPMGR_PORT_NUMBER=5432 bitnami/postgresql-repmgr:15
 
 #3. 스탠바이 노드 실행
-docker run -d \
-  --name postgres-standby-1 \
-  --network postgres \
-  -v postgres_standby_data:/bitnami/postgresql \
-  -e POSTGRESQL_POSTGRES_PASSWORD=adminpassword \
-  -e POSTGRESQL_USERNAME=myuser \
-  -e POSTGRESQL_PASSWORD=mypassword \
-  -e POSTGRESQL_DATABASE=mydb \
-  -e REPMGR_PASSWORD=repmgrpassword \
-  -e REPMGR_PRIMARY_HOST=postgres-primary-0 \
-  -e REPMGR_PRIMARY_PORT=5432 \
-  -e REPMGR_PARTNER_NODES=postgres-primary-0,postgres-standby-1:5432 \
-  -e REPMGR_NODE_NAME=postgres-standby-1 \
-  -e REPMGR_NODE_NETWORK_NAME=postgres-standby-1 \
-  -e REPMGR_PORT_NUMBER=5432 \
-  bitnami/postgresql-repmgr:15
+docker run -d --name postgres-standby-1 --network postgres -v postgres_standby_data:/bitnami/postgresql -e POSTGRESQL_POSTGRES_PASSWORD=adminpassword -e POSTGRESQL_USERNAME=myuser -e POSTGRESQL_PASSWORD=mypassword -e POSTGRESQL_DATABASE=mydb -e REPMGR_PASSWORD=repmgrpassword -e REPMGR_PRIMARY_HOST=postgres-primary-0 -e REPMGR_PRIMARY_PORT=5432 -e REPMGR_PARTNER_NODES=postgres-primary-0,postgres-standby-1:5432 -e REPMGR_NODE_NAME=postgres-standby-1 -e REPMGR_NODE_NETWORK_NAME=postgres-standby-1 -e REPMGR_PORT_NUMBER=5432 bitnami/postgresql-repmgr:15
 
 # 4. SHELL1, SHELL2 각 컨테이너의 로그 확인
 docker logs -f postgres-primary-0
