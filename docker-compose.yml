@@ -9,9 +9,9 @@ services:
       - DB_URL=leafy-postgres
     depends_on:
       - leafy-postgres
-  leafy-front:
+  leafy-frontend:
     build: ./leafy-frontend
-    image: leafy-front:5.0.0-compose
+    image: leafy-frontend:5.0.0-compose
     environment:
       - BACKEND_HOST=leafy-backend
     ports:
